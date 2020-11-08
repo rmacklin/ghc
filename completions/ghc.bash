@@ -1,5 +1,5 @@
 # Add this to your .bashrc
-_complete_gh ()
+_complete_ghc ()
 {
         COMPREPLY=()
         if [[ $COMP_CWORD -eq 1 ]]; then
@@ -15,4 +15,4 @@ _complete_gh ()
         COMPREPLY=( $(compgen -W "${comp_arr}" -- $cur))
         return 0
 }
-complete -F _complete_gh gh
+complete -F _complete_ghc ghc
