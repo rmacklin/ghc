@@ -10,7 +10,7 @@ function ghc() {
   repo=$2
 
   user_path=$GH_BASE_DIR/github.com/$user
-  local_path=$user_path/$repo
+  local_path=$user_path/$repo/$repo
 
   if [[ ! -d $local_path ]]; then
      if [[ $GH_PROTO == "ssh" ]]; then 
@@ -27,6 +27,7 @@ function ghc() {
 
   if [[ $? -ne 0 ]]; then
     if [[ -d $user_path ]]; then
+      rm -d $user_path/$repo
       rm -d $user_path
     fi
   else
