@@ -3,7 +3,7 @@ GH_PROTO=${GH_PROTO:-"ssh"}
 function ghc() {
   if [[ $# -ne 2 ]]; then
     echo "USAGE: ghc [user] [repo]" >&2
-    return
+    return 1
   fi
 
   user=$1
@@ -19,17 +19,20 @@ function ghc() {
       git clone --recursive https://github.com/$user/$repo.git $local_path
      else
       echo "GH_PROTO must be set to ssh or https" >&2
+      return 1
     fi
   fi
 
   # If git exited uncleanly, clean up the created user directory (if exists)
   # and don't try to `cd` into it.
 
-  if [[ $? -ne 0 ]]; then
+  local git_exit_code=$?
+  if [[ $git_exit_code -ne 0 ]]; then
     if [[ -d $user_path ]]; then
       rm -d $user_path/$repo
       rm -d $user_path
     fi
+    return $git_exit_code
   else
     cd $local_path
   fi
