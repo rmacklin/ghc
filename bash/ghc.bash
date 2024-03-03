@@ -1,14 +1,23 @@
 function ghc() {
   local gh_base_dir=${GH_BASE_DIR:-$HOME/src}
   local gh_protocol=${GH_PROTO:-"ssh"}
+  local user repo
 
   if [[ $# -ne 2 ]]; then
-    echo "USAGE: ghc [user] [repo]" >&2
-    return 1
+    if [[ $# -eq 1 ]] && command -v ruby &> /dev/null; then
+      read user repo < <(ruby -e "matches = %r{(github.com/|^)(?<owner>[\w-]+)/(?<repo>[\w\.-]+)}.match('$1'); matches && puts(matches[:owner]+\" \"+matches[:repo])")
+      if [[ -z $user ]]; then
+        echo "Failed to parse GitHub repository" >&2
+        return 1
+      fi
+    else
+      echo "USAGE: ghc [user] [repo]" >&2
+      return 1
+    fi
+  else
+    user=$1
+    repo=$2
   fi
-
-  local user=$1
-  local repo=$2
 
   local user_path=$gh_base_dir/github.com/$user
   local local_path=$user_path/$repo/$repo
