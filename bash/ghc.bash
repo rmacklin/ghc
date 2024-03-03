@@ -12,6 +12,7 @@ function ghc() {
 
   local user_path=$gh_base_dir/github.com/$user
   local local_path=$user_path/$repo/$repo
+  test -d $user_path && local user_path_already_existed=true
 
   if [[ ! -d $local_path ]]; then
      if [[ $gh_protocol == "ssh" ]]; then
@@ -31,7 +32,9 @@ function ghc() {
   if [[ $git_exit_code -ne 0 ]]; then
     if [[ -d $user_path ]]; then
       rm -d $user_path/$repo
-      rm -d $user_path
+      if [[ -z $user_path_already_existed ]]; then
+        rm -d $user_path
+      fi
     fi
     return $git_exit_code
   else
