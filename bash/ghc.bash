@@ -1,6 +1,6 @@
 function ghc() {
   local gh_base_dir=${GH_BASE_DIR:-$HOME/src}
-  local gh_proto=${GH_PROTO:-"ssh"}
+  local gh_protocol=${GH_PROTO:-"ssh"}
 
   if [[ $# -ne 2 ]]; then
     echo "USAGE: ghc [user] [repo]" >&2
@@ -14,9 +14,9 @@ function ghc() {
   local local_path=$user_path/$repo/$repo
 
   if [[ ! -d $local_path ]]; then
-     if [[ $gh_proto == "ssh" ]]; then
+     if [[ $gh_protocol == "ssh" ]]; then
       git clone --recursive git@github.com:$user/$repo.git $local_path
-     elif [[ $gh_proto == "https" ]]; then
+     elif [[ $gh_protocol == "https" ]]; then
       git clone --recursive https://github.com/$user/$repo.git $local_path
      else
       echo "GH_PROTO must be set to ssh or https" >&2
