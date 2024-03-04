@@ -5,7 +5,11 @@ function ghc() {
 
   if [[ $# -ne 2 ]]; then
     if [[ $# -eq 1 ]] && command -v ruby &> /dev/null; then
-      read user repo < <(ruby -e "matches = %r{(github.com/|^)(?<owner>[\w-]+)/(?<repo>[\w\.-]+)}.match('$1'); matches && puts(matches[:owner]+\" \"+matches[:repo])")
+      read user repo < <(ruby - <<RUBY
+        matches = %r{(github.com/|^)(?<owner>[\w-]+)/(?<repo>[\w\.-]+)}.match('$1')
+        matches && puts(matches[:owner] + " " + matches[:repo])
+RUBY
+      )
       if [[ -z $user ]]; then
         echo "Failed to parse GitHub repository" >&2
         return 1
