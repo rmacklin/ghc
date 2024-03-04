@@ -6,8 +6,8 @@ function ghc() {
   if [[ $# -ne 2 ]]; then
     if [[ $# -eq 1 ]] && command -v ruby &> /dev/null; then
       read user repo < <(ruby - <<RUBY
-        github_repo_pattern = %r{(github.com/|^)(?<owner>[\w-]+)/(?<repo>[\w\.-]+)}
-        if (matches = github_repo_pattern.match('$1'))
+        github_repo_pattern = %r{(github.com(/|:)|^)(?<owner>[\w-]+)/(?<repo>[\w\.-]+)}
+        if (matches = github_repo_pattern.match('$1'.delete_suffix('.git')))
           puts matches[:owner] + " " + matches[:repo]
         end
 RUBY
