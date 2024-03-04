@@ -7,8 +7,9 @@ function ghc() {
     if [[ $# -eq 1 ]] && command -v ruby &> /dev/null; then
       read user repo < <(ruby - <<RUBY
         github_repo_pattern = %r{(github.com/|^)(?<owner>[\w-]+)/(?<repo>[\w\.-]+)}
-        matches = github_repo_pattern.match('$1')
-        matches && puts(matches[:owner] + " " + matches[:repo])
+        if (matches = github_repo_pattern.match('$1'))
+          puts matches[:owner] + " " + matches[:repo]
+        end
 RUBY
       )
       if [[ -z $user ]]; then
