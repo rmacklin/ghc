@@ -6,7 +6,6 @@ function ghc -d "manage git repos"
   end
 
   set git_host github.com
-  set -l repo ""
 
   if [ (count $argv) -eq 1 ]
     set repo $argv[1]
