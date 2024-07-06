@@ -26,7 +26,7 @@ function ghc -d "manage git repos"
     set user_path_already_existed false
   end
 
-  set -l path $user_path/$repo
+  set -l path $user_path/$repo/$repo
   if not test -d $path
     git clone --recursive git@$git_host:$user/$repo.git $path
   end
