@@ -12,7 +12,7 @@ function gh -d "manage git repos"
     set repo $argv[1]/$argv[2]
   else
     echo "USAGE: gh [user] [repo]"
-    return -1
+    return 1
   end
 
   set -l path $GH_BASE_DIR/$git_host/$repo
