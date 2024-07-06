@@ -11,7 +11,7 @@ function ghc -d "manage git repos"
   else if [ (count $argv) -eq 2 ]
     set repo $argv[1]/$argv[2]
   else
-    echo "USAGE: ghc [user] [repo]"
+    echo "USAGE: ghc [user] [repo]" >&2
     return 1
   end
 
