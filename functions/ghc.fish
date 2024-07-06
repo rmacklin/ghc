@@ -1,8 +1,10 @@
-if not set -q GH_BASE_DIR
-    set GH_BASE_DIR $HOME/src
-end
-
 function ghc -d "manage git repos"
+  if set -q GH_BASE_DIR
+    set gh_base_dir $GH_BASE_DIR
+  else
+    set gh_base_dir $HOME/src
+  end
+
   set git_host github.com
   set -l repo ""
 
@@ -15,7 +17,7 @@ function ghc -d "manage git repos"
     return 1
   end
 
-  set -l path $GH_BASE_DIR/$git_host/$repo
+  set -l path $gh_base_dir/$git_host/$repo
   if not test -d $path
     git clone --recursive git@$git_host:$repo.git $path
   end
