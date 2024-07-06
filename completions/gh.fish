@@ -36,5 +36,5 @@ function __gh_repo_completion
   string join \n $repos | sort | uniq -du
 end
 
-complete -c gh -n '__fish_is_token_n 2' --arguments '(__gh_user_completion)' --no-files
-complete -c gh -n '__fish_is_token_n 3' --arguments '(__gh_repo_completion)' --no-files
+complete -c gh -n '__fish_is_token_n 1' --arguments '(__gh_user_completion)' --no-files
+complete -c gh -n '__fish_is_token_n 2' --arguments '(__gh_repo_completion)' --no-files
