@@ -7,10 +7,13 @@ function ghc -d "manage git repos"
 
   set git_host github.com
 
-  if [ (count $argv) -eq 1 ]
-    set -l parts (string split / $argv[1])
-    set user $parts[1]
-    set repo $parts[2]
+  if [ (count $argv) -eq 1 ]; and type -q ruby
+    echo "
+        github_repo_pattern = %r{(github.com(/|:)|^)(?<owner>[\w-]+)/(?<repo>[\w\.-]+)}
+        if (matches = github_repo_pattern.match('$argv[1]'.delete_suffix('.git')))
+          puts matches[:owner] + ' ' + matches[:repo]
+        end
+    " | ruby - | read user repo
   else if [ (count $argv) -eq 2 ]
     set user $argv[1]
     set repo $argv[2]
